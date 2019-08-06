@@ -1,0 +1,13 @@
+helmet train result
+python3 train.py --model_def config/yolov3-custom.cfg --data_config config/custom.data --pretrained_weights weights/darknet53.conv.74
+
++-------+------------+---------+
+| Index | Class name | AP      |
++-------+------------+---------+
+| 0     | blue       | 0.69188 |
+| 1     | white      | 0.77002 |
+| 2     | yellow     | 0.50158 |
+| 3     | red        | 0.68331 |
+| 4     | none       | 0.70064 |
++-------+------------+---------+
+---- mAP 0.6694856197682302

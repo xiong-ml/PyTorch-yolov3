@@ -52,6 +52,7 @@ if __name__ == "__main__":
     valid_path = data_config["valid"]
     class_names = load_classes(data_config["names"])
 
+    print("data config", data_config, class_names)
     # Initiate model
     model = Darknet(opt.model_def).to(device)
     model.apply(weights_init_normal)
@@ -169,6 +170,7 @@ if __name__ == "__main__":
 
             # Print class APs and mAP
             ap_table = [["Index", "Class name", "AP"]]
+            print("current ap class", ap_class, class_names)
             for i, c in enumerate(ap_class):
                 ap_table += [[c, class_names[c], "%.5f" % AP[i]]]
             print(AsciiTable(ap_table).table)
