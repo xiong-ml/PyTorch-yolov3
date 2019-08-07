@@ -79,13 +79,8 @@ def detect_images(model, imgs, conf_thres, nms_thres, img_size, classes):
             class_ids.append(int(cls_pred))
             class_scores.append(cls_conf.item())
         image_infos.append({ "rois": np.array(rois), "class_ids": np.array(class_ids), "scores": np.array(class_scores) })
+    return image_infos
     
-    # blue yellow  white red none
-    colors = [(0, 196, 214), (255, 119, 0), (210, 210, 210), (255, 0, 0), (87, 112, 255)]
-
-    for i, image_info in enumerate(image_infos):
-        res_image = get_image(imgs[i], "", image_info["rois"], None, image_info["class_ids"], image_info["scores"], classes, colors=colors, text_colors=colors)
-        res_image.save(os.path.join('output', '%s.jpg' % (str(i))))
 
 # 直接调用 python video_detect/detect_image.py --image_folder ../Mask_RCNN/samples/helmet/samples/
 if __name__ == "__main__":
@@ -113,4 +108,11 @@ if __name__ == "__main__":
         classes=classes, conf_thres=opt.conf_thres, 
         nms_thres=opt.nms_thres, img_size=opt.img_size
     )
-    detect_model.detect(imgs)
+    image_infos = detect_model.detect(imgs)
+
+    # blue yellow  white red none
+    colors = [(0, 196, 214), (255, 119, 0), (210, 210, 210), (255, 0, 0), (87, 112, 255)]
+
+    for i, image_info in enumerate(image_infos):
+        res_image = get_image(imgs[i], "", image_info["rois"], None, image_info["class_ids"], image_info["scores"], classes, colors=colors, text_colors=colors)
+        res_image.save(os.path.join('output', '%s.jpg' % (str(i))))
