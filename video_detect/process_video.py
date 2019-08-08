@@ -31,6 +31,7 @@ def read_images_from_path(video_path):
 # 将images写入到video_path，生成视频文件
 def write_images_into_path(images, fps, size, video_path):
     print('write images into ', video_path)
+    
     out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'DIVX'), fps, size)
     for i in range(len(images)):
         # writing to a image array

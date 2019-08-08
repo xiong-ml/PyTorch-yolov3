@@ -4,9 +4,8 @@ import sys
 import argparse
 import glob
 
-cur_dir = os.path.dirname(__file__)
-sys.path.append(os.path.abspath(os.path.join(cur_dir, "../")))
-sys.path.append(os.path.abspath(cur_dir))
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../") )
+sys.path.append(ROOT_DIR)
 
 from models import *
 from utils.utils import *
@@ -16,7 +15,7 @@ import time
 
 import torch.nn.functional as F
 import torchvision.transforms as transforms
-from process_video import get_image
+from video_detect.process_video import get_image
 
 class DetectModel:
     def __init__(self, **opt):
@@ -67,6 +66,10 @@ def detect_images(model, imgs, conf_thres, nms_thres, img_size, classes):
 
     image_infos = []
     for img_i, detection in enumerate(detections):
+        if detection is None:
+            image_infos.append({ "rois": np.array([]), "class_ids": np.array([]), "scores": np.array([]) })
+            continue
+
         print("will rescale boxes:", img_size, imgs[img_i].shape[:2])
         detection = rescale_boxes(detection, img_size, imgs[img_i].shape[:2])
 
